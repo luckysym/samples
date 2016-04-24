@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.shiym</groupId>
+    <artifactId>hello-world</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>hello world sample</name>
+	
+	<!-- Begin 以下为聚合项目专用内容 -->
+	<!-- 一般项目，packaging默认为jar，此处指定 pom表示为聚合项目 -->
+	<packaging>pom</packaging>
+	<modules>
+		<!-- 包含两个子项目的artifactId，如果是平行目录，则需要前面加.. -->
+		<module>account-email</module>
+		<module>account-persist</module>
+	</modules>
+	<!-- END 以上为聚合项目专用内容 -->
+	
+	<!-- BEGIN 以下是继承项目内容 -->
+	<!-- 继承内容包括：dependencies、plugins、properties、groupId、version、description、
+	     organization、repositories、build、distributionManagement等 -->
+	<parent>
+		<groupId>...</groupId>
+		<artifactId>...</artifactId>
+		<version>...</version>
+		<relativePath>../account-parent/pom.xml</relativePath>
+	</parent>
+	<!-- END 以上是继承项目内容-->
+	
+    <properties>
+        <!-- 声明属性，xml element name为属性名-->
+        <springframework.version>2.5.6</springframework.version>
+    </properties>
+
+    <dependencies>
+        <!-- 项目中的依赖，可执行命令：  mvn dependency:list
+             查看当前项目动态解析的依赖关系。
+             使用下面命令查看项目的依赖网： mvn dependency:tree
+             可看到某个依赖通过哪条路径传入。
+             分析当前项目的依赖：mvn dependency:analyse
+        -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifaceId>junit</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+                <!-- scope: compile(default, =compile+test), test,
+                            provided(=compile+test+runtime),
+                            runtime, system, import -->
+            <systemPath>${java.home}/lib/rt.jar</systemPath>
+                <!-- scope=system时指定库本地路径-->
+            <optional>true</optional>
+                <!-- 是否可选依赖， true/false-->
+            <exclusions>
+                <!-- 包含需要排除的递归依赖关系 -->
+                <exclusion>
+                    <groupId>com.juvenxu</groupId>
+                    <artifactId>project-c</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifaceId>spring-core</artifactId>
+            <version>${springframework.version}</version>
+                <!-- 引用上面声明的spring版本号属性 -->
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifaceId>spring-beans</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+    </dependencies>
+    <plugins>
+        <plugin>
+			<!-- 编译器插件，指定编译的源代码和目标程序的JDK版本 -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.5</source>
+                <target>1.5</target>
+            </configuration>
+        </plugin>
+    </plugins>
+    <distributionManagement>
+        <!--将库部署到远程仓库的配置-->
+        <repository>
+            <!--正式发布版本的仓库-->
+            <id>proj-releases</id>
+            <name>Proj Release Repository</name>
+            <url>http://192.168.1.1/content/repositories/proj-releases</url>
+        </repository>
+        <snapshotRepository>
+            <!--SNAPSHOT版本的仓库-->
+            <id>proj-snapshots</id>
+            <name>Proj Snapshot Repository</name>
+            <url>http://192.168.1.1/content/repositories/proj-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>
