@@ -7,7 +7,7 @@
     <artifactId>hello-world</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>hello world sample</name>
-	
+
 	<!-- Begin 以下为聚合项目专用内容 -->
 	<!-- 一般项目，packaging默认为jar，此处指定 pom表示为聚合项目 -->
 	<packaging>pom</packaging>
@@ -17,7 +17,7 @@
 		<module>account-persist</module>
 	</modules>
 	<!-- END 以上为聚合项目专用内容 -->
-	
+
 	<!-- BEGIN 以下是继承项目内容 -->
 	<!-- 继承内容包括：dependencies、plugins、properties、groupId、version、description、
 	     organization、repositories、build、distributionManagement等 -->
@@ -28,7 +28,7 @@
 		<relativePath>../account-parent/pom.xml</relativePath>
 	</parent>
 	<!-- END 以上是继承项目内容-->
-	
+
     <properties>
         <!-- 声明属性，xml element name为属性名-->
         <springframework.version>2.5.6</springframework.version>
@@ -83,6 +83,20 @@
                 <target>1.5</target>
             </configuration>
         </plugin>
+        <plugin>
+            <!-- maven默认测试插件 -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.5</version>
+            <configuration>
+                <includes>  <!-- 包含需要测试的用例-->
+                    <include> **/*Test.java</include>
+                </includes>
+                <excludes> <!-- 需要排除的测试用例 -->
+                    <exclude>**/*ServiceTest.java</exclude>
+                </excludes>
+            </configuration>
+        </plugin>
     </plugins>
     <distributionManagement>
         <!--将库部署到远程仓库的配置-->
@@ -99,4 +113,19 @@
             <url>http://192.168.1.1/content/repositories/proj-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <!-- 在项目中定义maven仓库 -->
+    <repositories>
+        <repository>
+            <id> sonatype-forge </id>
+            <name>Sonatype Forge</name>
+            <url>http://repository.sonatype.org/content/groups/forgee/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
