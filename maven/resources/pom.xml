@@ -18,6 +18,34 @@
 	</modules>
 	<!-- END 以上为聚合项目专用内容 -->
 
+    <!-- 集成SVN -->
+    <scm>
+        <connection>scm:svn:http://svn.juvenxu.com/mvnbook/trunk</connection>
+        <developerConnection>
+            scm:svn:https://svn.juvenxu.com/mvnbook/trunk
+        </developerConnection>
+        <url>https://svn.juvenxu.com/mvnbook/trunk</url>
+    </scm>
+
+    <!--开发者信息-->
+    <developers>
+        <developer>
+            <id>juvenxu</id>
+            <name>Juven Xu</name>
+            <email>...</email>
+            <timezone>8</timezone>
+        </developer>
+    </developers>
+
+    <!--许可证信息-->
+    <licenses>
+        <license>
+            <name>Apache License. Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+
 	<!-- BEGIN 以下是继承项目内容 -->
 	<!-- 继承内容包括：dependencies、plugins、properties、groupId、version、description、
 	     organization、repositories、build、distributionManagement等 -->
@@ -95,6 +123,59 @@
                 <excludes> <!-- 需要排除的测试用例 -->
                     <exclude>**/*ServiceTest.java</exclude>
                 </excludes>
+            </configuration>
+        </plugin>
+        <plugin>
+            <!-- jetty 测试插件，由于不是maven官方插件，需要在setting.xml中增加:
+                <settings>
+                    <pluginGroups>
+                        <pluginGroup>org.mortbay.jetty</pluginGroup>
+                    </pluginGroups>
+                </settings>
+
+                执行maven命令启动jetty测试, 并可选指定端口（默认8080）：
+                    $ mvn jetty:run -Djetty.port=9090
+            -->
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <version>7.1.6.v20100715</version>
+            <configuration>
+                <scanIntervalSeconds>10</scanIntervalSeconds>
+                <webAppConfig>
+                    <contextPath>/test</contextPath>
+                </webAppConfig>
+            </configuration>
+        </plugin>
+        <plugin>
+            <!-- Cargo插件，用于部署到web容器，支持tomcat, jboss, jetty, glassfish
+                 部署命令：
+                    $ mvn cargo:start
+            -->
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>carge-maven2-plugin</artifactId>
+            <version>1.0</version>
+            <configuration>
+                <container>
+                    <containerId>tomcat6x</containerId>
+                    <home>d:\apache-tomcat-6.0.29</home>
+                </container>
+                <configuration>
+                    <!-- 部署模式包括 standalone和existing-->
+                    <type>standalone</type>
+                    <home>${project.build.directory}/tomcat6x</home>
+                    <properties>
+                        <!--可以指定servlet端口-->
+                        <cargo.servlet.port>8081</cargo.servlet.port>
+
+                        <!-- 可以支持远程部属，指定远程部属应用的用户名、密码和路径
+                        -->
+                        <cargo.remote.username>admin</carge.remote.name>
+                        <cargo.remote.password>admin123</cargo.remote.password>
+                        <carge.tomcat.manager.url>
+                            http://localhost:8080/manager
+                        </cargo.tomcat.manager.url>
+                    </properties>
+                </configuration>
             </configuration>
         </plugin>
     </plugins>
