@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING/DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="stoneAxe" class="acc.StoneAxe" />
+    <bean id="steelAxe" class="acc.SteelAxe" />
+    <bean id="chinese" class="acc.Chinese" >
+        <!--通过setter方法注入属性值-->
+        <property name="axe">
+            <ref local="stoneAxe" />
+        </property>
+    </bean>
+    <bean id="american" class="acc.American" >
+        <!--通过构造函数法注入属性值-->
+        <constructor-arg>
+            <ref local="steelAxe" />
+        </constructor-arg>
+    </bean>
+</beans>
