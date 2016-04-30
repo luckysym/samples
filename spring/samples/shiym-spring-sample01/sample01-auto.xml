@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="man" class="auto.Man">
+        <property name="name" value="ACC" />
+        <property name="age" value="24" />
+    </bean>
+
+    <!--Building类的man属性将自动匹配上面的id=man对象，因为autowire设置根据名称自动匹配.
+        autowire取值：byName, byType, 在本例中两者设置一样，都可以匹配到,
+                     constructor, autodetect
+     -->
+    <bean id="building" class="auto.Building" autowire="byName">
+        <property name="name" value="Jim" />
+        <property name="floors" value="31" />
+    </bean>
+</beans>

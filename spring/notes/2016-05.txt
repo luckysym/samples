@@ -1,0 +1,5 @@
+2016-04-30 spring framework 2.5
+    1. bean IoC. ApplicationContext.
+    2. 显示装配。setter方法，constructor.
+    3. Autowire  自动装配
+    4. init-method, destroy-method

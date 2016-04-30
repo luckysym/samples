@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <import resource="service-beans.xml" />
+        <!-- 从service-beans.xml加载Bean定义。import元素必须位于其他所有bean元素之前。-->
+
+    <bean id="life" class="lifecycle.Life"></bean>
+        <!-- 定义一个Bean，属性：
+                id/name: 名称标识。如果没有指定，容器会随机生成一个，
+                         程序中使用getBean("lifecycle。Life")获取。
+                class: Bean类全名。
+                init-method: 初始化方法名称，在Bean构造后由框架调用初始化，如init.
+                destroy-method: 销毁方法，在Bean销毁前由框架调用。
+                scope: 作用域，如：sigleton, prototype, request, session, global session.
+        -->
+
+    <bean id="man" class="set.Man">
+        <!-- property元素指示容器使用bean的setter方法设置指定的类属性。
+            类set.Man必须包含属性set方法：
+                setName(String name);
+                setAge(int age)
+        -->
+        <property name="name">
+            <value>ACC</value>
+        </property>
+        <property name="age">
+            <value>24</value>
+        </property>
+    </bean>
+
+    <bean id="animal" class="cons.Animal">
+        <!-- 通过构造函数初始化设置类cons.Animal的属性。cons.Animal必须有以下构造函数：
+             Animal(String name, int age)
+             其中，参数顺序必须和construct-arg元素顺序一致，否则会抛异常。
+             或者，在construct-arg元素中，使用index属性表示参数下标。
+             type属性用于显式指定参数类型。
+             index和type属性是可选参数。
+        -->
+        <construct-arg index="0" type="java.lang.String">
+            <value>CCA</value>
+        </construct-arg>
+        <construct-arg index="1" type="int">
+            <value>42</value>
+        </construct-arg>
+    </bean>
+
+    <bean id="building" class="auto.Building" autowire="byName" >
+        <!-- 启用自动装配功能，需要制定autowire参数，这样容器会自动扫描当前类的
+             setter方法、构造函数等，从当前上下文中获取合适的Bean自动填入。
+             autowire取值：
+                byName:  通过setter方法找到类属性名称与id相匹配的bean自动填入。
+                byType:  通过setter方法找到类属性类型相匹配的bean自动填入。
+                constructor：自动匹配构造函数中的擦数。
+                autodetect: 自动控制。
+            <beans autowire-candidate="false">, 该设置可以强制要求当前上下文不做自动装配。
+            <beans autowire-candidate="*2">, 该设置可以强制要仅自动装配以2结尾的Bean.
+            <beans default-autowire="true/false"> 默认是否执行自动装备。
+         -->
+        <property name="name" value="Jim" />
+        <property name="floors" value="31" />
+    </bean>
+</beans>
