@@ -16,4 +16,14 @@
             <ref local="steelAxe" />
         </constructor-arg>
     </bean>
+
+    <!--从db.properties中获取消息字符串-->
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>db</value>
+            </list>
+        </property>
+    </bean>
 </beans>

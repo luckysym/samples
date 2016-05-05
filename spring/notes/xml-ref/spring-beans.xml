@@ -8,6 +8,30 @@
     <import resource="service-beans.xml" />
         <!-- 从service-beans.xml加载Bean定义。import元素必须位于其他所有bean元素之前。-->
 
+    <!-- 使用Spring框架架子啊指定配置文件中的配置信息，以便在后面使用占位符代替实际的参数值 -->
+    <bean id="propertyConfigure"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigure">
+        <property name="location" value="db.properties" />
+    </bean>
+    <!--可以通知加载多个参数配置文件-->
+    <bean id="propertyConfigures"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigure">
+        <property name="locations">
+            <list>
+                <value>db.properties</value>
+                <value>security.properties</value>
+                <value>application.properties</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dataSourceDBA"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <!--下面的参数就是使用参数文件中的变量占位符代替实际参数值。-->
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
+
     <bean id="life" class="lifecycle.Life"></bean>
         <!-- 定义一个Bean，属性：
                 id/name: 名称标识。如果没有指定，容器会随机生成一个，

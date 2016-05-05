@@ -3,3 +3,7 @@
     2. 显示装配。setter方法，constructor.
     3. Autowire  自动装配
     4. init-method, destroy-method
+
+2016-5-5 spring framework 2.5
+    1. ApplicationContext.getMessage() 消息绑定
+    2. 配置信息占位符 PropertyPlaceholderConfigurer
