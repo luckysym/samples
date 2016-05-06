@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING/DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="greetingBeforeAdvice" class="aspect.GreetingBeforeAdvice" />
+    <bean id="greetingAfterAdvice" class="aspect.GreetingAfterAdvice" />
+    <bean id="greetingAroundAdvice" class="aspect.GreetingAroundAdvice" />
+    <bean id="target" class="aspect.ConcreteReception" />
+ 
+     <bean id="reception2" class="org.springframework.aop.framework.ProxyFactoryBean" >
+        <!--通过setter方法注入属性值-->
+        <property name="proxyInterfaces" value="aspect.Reception" />
+        <property name="interceptorNames" >
+        	<list>
+        		<value>greetingAroundAdvice</value>
+        	</list>
+        </property>
+        <property name="target" ref="target" />
+    </bean>
+ 
+    <bean id="reception" class="org.springframework.aop.framework.ProxyFactoryBean" >
+        <!--通过setter方法注入属性值-->
+        <property name="proxyInterfaces" value="aspect.Reception" />
+        <property name="interceptorNames" >
+        	<list>
+        		<value>greetingBeforeAdvice</value>
+        		<value>greetingAfterAdvice</value>
+        	</list>
+        </property>
+        <property name="target" ref="target" />
+    </bean>
+
+    
+
+</beans>

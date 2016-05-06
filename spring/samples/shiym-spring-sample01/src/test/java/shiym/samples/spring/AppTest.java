@@ -35,6 +35,7 @@ public class AppTest
     {
         App.doMain(null);
         App.doAuto(null);
+        App.doAspect();
         assertTrue( true );
     }
 }
