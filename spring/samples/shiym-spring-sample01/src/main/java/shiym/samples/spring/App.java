@@ -48,5 +48,9 @@ public class App
     	
     	Reception reception2 = (Reception)ctx.getBean("reception2");
     	reception2.serveCustomer("Shi Xianjin");
+    	
+    	People people = (People)ctx.getBean("people");
+    	people.speaking();
+    	people.running();
     }
 }
