@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/strut-2.0.dtd">
+<struts>
+    <include file="struts-default.xml" />
+    <package name="struts2-login" extends="struts-default" namespace="/login">
+        <action name="checkLogin" class="act.LoginAction" method="checkLogin">
+            <result name="success">/index.jsp</result>
+            <result name="failure">/login.jsp</result>
+        </action>
+    </package>
+</struts>
